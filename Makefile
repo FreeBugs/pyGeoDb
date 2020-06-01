@@ -18,10 +18,16 @@ cleanup: # this does NOT convert to python 3.x
 pygeodb/borderdata.py: data/de_landmasse_osm_relation_62781.gpx tools/grenzen2python.py
 	PYTHONPATH=. python tools/grenzen2python.py > pygeodb/borderdata.py
 
-pygeodb/plzdata.py: data/DE.tab tools/plz2python2013.py
+pygeodb/plzdata.DE: data/DE.tab tools/plz2python2013.py
 	PYTHONPATH=. python tools/plz2python2013.py data/DE.tab pygeodb/plzdata.py
 
-data: pygeodb/borderdata.py pygeodb/plzdata.py
+pygeodb/plzdata.AT: data/AT.tab tools/plz2python2013.py
+	PYTHONPATH=. python tools/plz2python2013.py data/AT.tab pygeodb/plzdata.py
+
+pygeodb/plzdata.CH: data/CH.tab tools/plz2python2013.py
+	PYTHONPATH=. python tools/plz2python2013.py data/CH.tab pygeodb/plzdata.py
+
+data: pygeodb/borderdata.py pygeodb/plzdata.DE pygeodb/plzdata.AT pygeodb/plzdata.CH
 
 maps: data
 	#python ./plz_draw --borders maps/deutschland_gebiete.pdf
