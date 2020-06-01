@@ -1,7 +1,7 @@
 default: check
 
 check:
-	pep8 -r --ignore=E501,E111 pygeodb/pygeodb_core.py tools/*py plz_draw
+	pycodestyle -r --ignore=E501,E111 pygeodb/pygeodb_core.py tools/*py plz_draw
 	pyflakes pygeodb/pygeodb_core.py tools/*py plz_draw
 
 test: check data
