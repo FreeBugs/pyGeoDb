@@ -47,20 +47,23 @@ for line in open(sys.argv[1], 'rb'):
 
     if len(values) < 10:
         continue
-    zipcode = str(values[7])
-    if ((country == 'DE' and len(zipcode) != 5) or
-            (country != 'DE' and len(zipcode) != 4)):
-        continue
-    if not values[4].strip():  # keine koordinaten
-        continue
-    city = values[3]
-    longitude = float(values[5])
-    latitude = float(values[4])
-    if country not in geodata:
-        geodata[country] = {}
-    geodata[country][zipcode] = (longitude, latitude, city)
+    zipcodecol = str(values[7])
+    zipcodes = zipcodecol.split(',')
+    for zipcode in zipcodes:
+        if ((country == 'DE' and len(zipcode) != 5) or
+                (country != 'DE' and len(zipcode) != 4)):
+            continue
+        if not values[4].strip():  # keine koordinaten
+            continue
+        city = values[3]
+        longitude = float(values[5])
+        latitude = float(values[4])
+        if country not in geodata:
+            geodata[country] = {}
+        geodata[country][zipcode] = (longitude, latitude, city)
 
-geodata.update(pygeodb.plzdata.geodata)
+pygeodb.plzdata.geodata.update(geodata)
+geodata = pygeodb.plzdata.geodata
 
 outfile = open(sys.argv[2], 'wb')
 outfile.write("# -*- coding: utf-8 -*-\n".encode('utf-8'))
